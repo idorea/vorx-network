@@ -82,6 +82,41 @@ resource "aws_route_table_association" "pub-rt-1b" {
 
 
 
+resource "aws_route_table" "private-rt-1a" {
+  vpc_id = aws_vpc.vorx-vpc-prod.id
+
+  tags = {
+    Name = "vorx-private-rt-1a"
+  }
+}
+
+
+resource "aws_route_table" "private-rt-1b" {
+  vpc_id = aws_vpc.vorx-vpc-prod.id
+
+  tags = {
+    Name = "vorx-private-rt-1b"
+  }
+}
+
+resource "aws_route_table_association" "priv-rt-1a-associate" {
+  subnet_id      = aws_subnet.vorx-subnet-priv-1a.id
+  route_table_id = aws_route_table.private-rt-1a.id
+}
+
+resource "aws_route_table_association" "priv-rt-1b-associate" {
+  subnet_id      = aws_subnet.vorx-subnet-priv-1b.id
+  route_table_id = aws_route_table.private-rt-1b.id
+}
+
+
+
+
+
+
+
+
+
 ## OUTPUTS DO NOSSO TF ##
 output "vpc-vorx-prod_id" {
 value = aws_vpc.vorx-vpc-prod.id
