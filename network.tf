@@ -48,6 +48,21 @@ availability_zone  = "us-east-1b"
   }
 }
 
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.vorx-vpc-prod.id
+
+  tags = {
+    Name = "igw-vorx-vpc-prod"
+  }
+}
+
+
+
+
+
+
+
+
 
 ## OUTPUTS DO NOSSO TF ##
 output "vpc-vorx-prod_id" {
