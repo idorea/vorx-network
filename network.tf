@@ -28,7 +28,7 @@ availability_zone  = "us-east-1a"
 }
 
 resource "aws_subnet" "vorx-subnet-pub-1b" {
-  vpc_id     = aws_vpc.vorx-vpc-prod.id
+  vpc_id     = aws_vpc.vorx-vpc-prod.id 
   cidr_block = "10.0.2.0/24"
 availability_zone  = "us-east-1b"
 
@@ -56,11 +56,29 @@ resource "aws_internet_gateway" "gw" {
   }
 }
 
+resource "aws_route_table" "public-rt" {
+  vpc_id = aws_vpc.vorx-vpc-prod.id
 
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
 
+ 
+  tags = {
+    Name = "vorx-pub-rt"
+  }
+}
 
+resource "aws_route_table_association" "pub-rt-1a" {
+  subnet_id      = aws_subnet.vorx-subnet-pub-1a.id
+  route_table_id = aws_route_table.public-rt.id
+}
 
-
+resource "aws_route_table_association" "pub-rt-1b" {
+  subnet_id      = aws_subnet.vorx-subnet-pub-1b.id
+  route_table_id = aws_route_table.public-rt.id
+}
 
 
 
